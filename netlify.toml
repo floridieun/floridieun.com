@@ -1,3 +1,29 @@
+# Force HTTP -> HTTPS
+[[redirects]]
+  from = "http://floridieun.com/*"
+  to = "https://floridieun.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.floridieun.com/*"
+  to = "https://floridieun.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://floridieunfilm.com/*"
+  to = "https://floridieun.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.floridieunfilm.com/*"
+  to = "https://floridieun.com/:splat"
+  status = 301
+  force = true
+
+# Redirect alternate domains (HTTPS)
 [[redirects]]
   from = "https://floridieunfilm.com/*"
   to = "https://floridieun.com/:splat"
@@ -9,3 +35,21 @@
   to = "https://floridieun.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "https://www.floridieun.com/*"
+  to = "https://floridieun.com/:splat"
+  status = 301
+  force = true
+
+# Security headers for all pages
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "upgrade-insecure-requests"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
