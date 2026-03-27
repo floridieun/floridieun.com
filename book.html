@@ -71,7 +71,13 @@
   }
 
   /* ── MAIN CONTENT AREA ── */
-  .content { flex: 1; }
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
   /* ── SECTION TITLE ── */
   .section-title {
@@ -80,6 +86,8 @@
     text-transform: lowercase;
     color: var(--muted);
     margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
   }
 
   /* ── QUICK BOOK BUTTON ── */
@@ -113,6 +121,7 @@
     color: var(--muted);
     text-align: center;
     margin-bottom: 36px;
+    width: 100%;
   }
 
   /* ── DIVIDER ── */
@@ -121,6 +130,7 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 32px;
+    width: 100%;
   }
   .divider-line {
     flex: 1;
@@ -139,12 +149,15 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    width: 100%;
+    align-items: center;
   }
 
   .field {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
   }
 
   .field label {
@@ -152,6 +165,7 @@
     letter-spacing: 0.26em;
     text-transform: lowercase;
     color: var(--muted);
+    text-align: center;
   }
 
   .field input,
@@ -170,6 +184,11 @@
     appearance: none;
     border-radius: 0;
     width: 100%;
+    text-align: center;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    text-align: center;
   }
   .field input:focus,
   .field select:focus,
@@ -180,6 +199,10 @@
     resize: none;
     height: 84px;
     line-height: 1.6;
+    text-align: center;
+  }
+  .field textarea::placeholder {
+    text-align: center;
   }
   .field select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
@@ -187,6 +210,8 @@
     background-position: right 13px center;
     padding-right: 32px;
     cursor: pointer;
+    text-align: center;
+    text-align-last: center;
   }
 
   /* two-col row */
@@ -194,6 +219,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    width: 100%;
   }
 
   /* ── SUBMIT ── */
@@ -287,18 +313,8 @@
     <!-- QUICK SCHEDULE OPTION -->
     <p class="section-title">schedule instantly</p>
 
-    <!--
-      ACUITY SETUP:
-      1. Go to acuityscheduling.com and create a free account (or log in)
-      2. Set up your appointment types (e.g. "Photography Session — 1 hr")
-      3. In Acuity go to: Business Settings → Scheduling Page Link
-      4. Copy your unique link — it looks like:
-         https://app.acuityscheduling.com/schedule.php?owner=XXXXXXX
-         or a custom subdomain: https://floridieunfilm.as.me/
-      5. Replace YOUR_ACUITY_LINK below with your actual link
-    -->
     <a class="quick-book"
-       href="https://dieun.as.me/"
+       href="https://dieun.as.me/schedule/a161880f/appointment/60107488/calendar/9833933"
        target="_blank"
        rel="noopener">
       schedule a session
@@ -312,21 +328,6 @@
     </div>
 
     <!-- INQUIRY FORM -->
-    <!--
-      FORM BACKEND SETUP (choose one):
-      Option A — Netlify Forms (easiest, free):
-        Add  netlify  attribute to the <form> tag below.
-        Netlify will catch all submissions automatically.
-        Change: <form class="form" id="form">
-        To:     <form class="form" id="form" netlify name="booking">
-        You'll see responses in your Netlify dashboard under "Forms".
-
-      Option B — Formspree (free, works anywhere):
-        1. Go to formspree.io and create a free account
-        2. Create a new form, copy your endpoint URL
-        3. Change the action attribute below to your Formspree URL
-        Example: <form ... action="https://formspree.io/f/XXXXXXXX" method="POST">
-    -->
     <form class="form" id="form" netlify name="booking">
 
       <div class="field-row">
@@ -393,11 +394,8 @@ function applyTheme() {
 }
 applyTheme();
 
-// ── FORM SUBMIT (client-side feedback) ────────────────────────────────────
-// Works with both Netlify Forms and Formspree.
-// For Netlify: the form submits to /?form-name=booking by default — Netlify intercepts it.
-// For Formspree: the action URL handles submission and redirects back or returns JSON.
-const form  = document.getElementById('form');
+// ── FORM SUBMIT ────────────────────────────────────────────────────────────
+const form    = document.getElementById('form');
 const success = document.getElementById('success');
 
 form.addEventListener('submit', async (e) => {
