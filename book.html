@@ -13,15 +13,14 @@
     --muted: #888888;
     --border: #e0e0e0;
     --accent: #F7931A;
-    --accent-hover: #e07f10;
     --input-bg: #fafafa;
     --transition: 0.35s ease;
   }
   [data-theme="dark"] {
     --bg: #0a0a0a;
     --text: #f0f0f0;
-    --muted: #666666;
-    --border: #222222;
+    --muted: #555555;
+    --border: #1e1e1e;
     --input-bg: #111111;
   }
 
@@ -36,6 +35,7 @@
     overflow-x: hidden;
   }
 
+  /* ── PAGE SHELL ── */
   .page {
     min-height: 100vh;
     display: flex;
@@ -43,7 +43,6 @@
     padding: 36px 24px 32px;
     max-width: 520px;
     margin: 0 auto;
-    gap: 0;
   }
 
   /* ── HEADER ── */
@@ -51,7 +50,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
     flex-shrink: 0;
   }
   .logo {
@@ -60,6 +58,7 @@
     text-transform: lowercase;
     color: var(--text);
     text-decoration: none;
+    font-weight: 400;
     transition: color 0.2s, font-weight 0.1s;
   }
   .logo:hover { color: var(--accent); font-weight: 700; }
@@ -70,48 +69,46 @@
     color: var(--muted);
   }
 
-  /* ── MAIN CONTENT AREA ── */
+  /* ── CENTERED CONTENT ── */
   .content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: stretch;
   }
 
-  /* ── SECTION TITLE ── */
+  /* ── SECTION LABEL ── */
   .section-title {
-    font-size: 10px;
-    letter-spacing: 0.32em;
+    font-size: 9px;
+    letter-spacing: 0.36em;
     text-transform: lowercase;
     color: var(--muted);
-    margin-bottom: 20px;
-    width: 100%;
+    margin-bottom: 16px;
     text-align: center;
   }
 
-  /* ── QUICK BOOK BUTTON ── */
+  /* ── SCHEDULE BUTTON ── */
   .quick-book {
     display: block;
     width: 100%;
-    padding: 16px 24px;
+    padding: 17px 24px;
     background: var(--text);
     color: var(--bg);
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.3em;
     text-transform: lowercase;
     text-align: center;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
-    margin-bottom: 8px;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
   }
   .quick-book:hover {
     background: var(--accent);
-    color: #ffffff;
+    color: #fff;
     transform: translateY(-1px);
   }
   .quick-book-sub {
@@ -120,8 +117,8 @@
     text-transform: lowercase;
     color: var(--muted);
     text-align: center;
+    margin-top: 8px;
     margin-bottom: 36px;
-    width: 100%;
   }
 
   /* ── DIVIDER ── */
@@ -130,18 +127,14 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 32px;
-    width: 100%;
   }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
   .divider-text {
     font-size: 9px;
     letter-spacing: 0.24em;
     text-transform: lowercase;
     color: var(--muted);
+    white-space: nowrap;
   }
 
   /* ── FORM ── */
@@ -149,23 +142,15 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
-    width: 100%;
-    align-items: center;
   }
 
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
-  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
 
   .field label {
     font-size: 9px;
     letter-spacing: 0.26em;
     text-transform: lowercase;
     color: var(--muted);
-    text-align: center;
   }
 
   .field input,
@@ -180,29 +165,19 @@
     letter-spacing: 0.04em;
     padding: 11px 13px;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s;
     appearance: none;
     border-radius: 0;
     width: 100%;
-    text-align: center;
-  }
-  .field input::placeholder,
-  .field textarea::placeholder {
-    text-align: center;
   }
   .field input:focus,
   .field select:focus,
-  .field textarea:focus {
-    border-color: var(--accent);
-  }
+  .field textarea:focus { border-color: var(--accent); }
+
   .field textarea {
     resize: none;
-    height: 84px;
+    height: 80px;
     line-height: 1.6;
-    text-align: center;
-  }
-  .field textarea::placeholder {
-    text-align: center;
   }
   .field select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
@@ -210,16 +185,12 @@
     background-position: right 13px center;
     padding-right: 32px;
     cursor: pointer;
-    text-align: center;
-    text-align-last: center;
   }
 
-  /* two-col row */
   .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    width: 100%;
   }
 
   /* ── SUBMIT ── */
@@ -230,7 +201,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.3em;
     text-transform: lowercase;
     padding: 14px 24px;
     cursor: pointer;
@@ -241,12 +212,12 @@
   .submit-btn:hover {
     background: var(--accent);
     border-color: var(--accent);
-    color: #ffffff;
+    color: #fff;
     transform: translateY(-1px);
   }
   .submit-btn:active { transform: translateY(0); }
 
-  /* ── SUCCESS MESSAGE ── */
+  /* ── SUCCESS ── */
   .success-msg {
     display: none;
     font-size: 10px;
@@ -254,7 +225,7 @@
     text-transform: lowercase;
     color: var(--muted);
     text-align: center;
-    padding: 18px 0 4px;
+    padding: 20px 0 4px;
   }
   .success-msg.show { display: block; }
 
@@ -274,9 +245,9 @@
     color: var(--muted);
     text-decoration: none;
     font-weight: 400;
-    transition: color 0.2s ease, font-weight 0.1s ease, transform 0.15s ease;
-    transform-origin: center bottom;
     position: relative;
+    transition: color 0.2s, font-weight 0.1s, transform 0.15s;
+    transform-origin: center bottom;
   }
   .nav-links a::after {
     content: '';
@@ -285,16 +256,28 @@
     height: 1px;
     background: var(--accent);
     transform: scaleX(0);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s;
     transform-origin: center;
   }
-  .nav-links a:hover { color: var(--accent); font-weight: 700; transform: scale(1.5); }
+  .nav-links a:hover {
+    color: var(--accent);
+    font-weight: 700;
+    transform: scale(1.5);
+  }
   .nav-links a:hover::after { transform: scaleX(1); }
   .nav-links a.active { color: var(--text); font-weight: 700; }
 
+  [data-theme="dark"] input::placeholder,
+  [data-theme="dark"] textarea::placeholder { color: #444; }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: opacity(0.4);
+    cursor: pointer;
+  }
+
   @media (max-width: 420px) {
     .field-row { grid-template-columns: 1fr; }
-    .nav-links { gap: 28px; }
+    .nav-links { gap: 24px; }
     .nav-links a { font-size: 10px; }
   }
 </style>
@@ -310,7 +293,6 @@
 
   <div class="content">
 
-    <!-- QUICK SCHEDULE OPTION -->
     <p class="section-title">schedule instantly</p>
 
     <a class="quick-book"
@@ -327,7 +309,6 @@
       <div class="divider-line"></div>
     </div>
 
-    <!-- INQUIRY FORM -->
     <form class="form" id="form" netlify name="booking">
 
       <div class="field-row">
@@ -387,36 +368,35 @@
 </div>
 
 <script>
-// ── THEME ──────────────────────────────────────────────────────────────────
-function applyTheme() {
-  const h = new Date().getHours();
-  document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
-}
-applyTheme();
+  function applyTheme() {
+    const h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
+  }
+  applyTheme();
+  setInterval(applyTheme, 60000);
 
-// ── FORM SUBMIT ────────────────────────────────────────────────────────────
-const form    = document.getElementById('form');
-const success = document.getElementById('success');
+  const form    = document.getElementById('form');
+  const success = document.getElementById('success');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = form.querySelector('.submit-btn');
-  btn.textContent = 'sending...';
-  btn.style.opacity = '0.6';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'sending...';
+    btn.style.opacity = '0.5';
 
-  try {
-    const data = new FormData(form);
-    const action = form.getAttribute('action') || '/';
-    await fetch(action, {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-  } catch (err) { /* allow form to appear submitted even if offline */ }
+    try {
+      const data   = new FormData(form);
+      const action = form.getAttribute('action') || '/';
+      await fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+    } catch (err) {}
 
-  form.style.display = 'none';
-  success.classList.add('show');
-});
+    form.style.display = 'none';
+    success.classList.add('show');
+  });
 </script>
 </body>
 </html>
