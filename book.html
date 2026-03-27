@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>floridieun. — book</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --text: #111111;
+    --muted: #888888;
+    --border: #e0e0e0;
+    --accent: #F7931A;
+    --accent-hover: #e07f10;
+    --input-bg: #fafafa;
+    --transition: 0.35s ease;
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --text: #f0f0f0;
+    --muted: #666666;
+    --border: #222222;
+    --input-bg: #111111;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 24px 32px;
+    max-width: 520px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-shrink: 0;
+  }
+  .logo {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s, font-weight 0.1s;
+  }
+  .logo:hover { color: var(--accent); font-weight: 700; }
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  /* ── MAIN CONTENT AREA ── */
+  .content { flex: 1; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: lowercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* ── QUICK BOOK BUTTON ── */
+  .quick-book {
+    display: block;
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--text);
+    color: var(--bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: lowercase;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    margin-bottom: 8px;
+  }
+  .quick-book:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+  .quick-book-sub {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider-text {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  /* ── FORM ── */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 9px;
+    letter-spacing: 0.26em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 11px 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    appearance: none;
+    border-radius: 0;
+    width: 100%;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+  }
+  .field textarea {
+    resize: none;
+    height: 84px;
+    line-height: 1.6;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+
+  /* two-col row */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-btn {
+    background: transparent;
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: lowercase;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .submit-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* ── SUCCESS MESSAGE ── */
+  .success-msg {
+    display: none;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: lowercase;
+    color: var(--muted);
+    text-align: center;
+    padding: 18px 0 4px;
+  }
+  .success-msg.show { display: block; }
+
+  /* ── FOOTER NAV ── */
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 0 0;
+    flex-shrink: 0;
+  }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s ease, font-weight 0.1s ease, transform 0.15s ease;
+    transform-origin: center bottom;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    transform-origin: center;
+  }
+  .nav-links a:hover { color: var(--accent); font-weight: 700; transform: scale(1.5); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--text); font-weight: 700; }
+
+  @media (max-width: 420px) {
+    .field-row { grid-template-columns: 1fr; }
+    .nav-links { gap: 28px; }
+    .nav-links a { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <a class="logo" href="index.html">floridieun.</a>
+    <span class="header-label">book</span>
+  </header>
+
+  <div class="content">
+
+    <!-- QUICK SCHEDULE OPTION -->
+    <p class="section-title">schedule instantly</p>
+
+    <!--
+      ACUITY SETUP:
+      1. Go to acuityscheduling.com and create a free account (or log in)
+      2. Set up your appointment types (e.g. "Photography Session — 1 hr")
+      3. In Acuity go to: Business Settings → Scheduling Page Link
+      4. Copy your unique link — it looks like:
+         https://app.acuityscheduling.com/schedule.php?owner=XXXXXXX
+         or a custom subdomain: https://floridieunfilm.as.me/
+      5. Replace YOUR_ACUITY_LINK below with your actual link
+    -->
+    <a class="quick-book"
+       href="https://YOUR_ACUITY_LINK.as.me/"
+       target="_blank"
+       rel="noopener">
+      schedule a session
+    </a>
+    <p class="quick-book-sub">pick a date &amp; time — instant confirmation via acuity</p>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">or send an inquiry</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- INQUIRY FORM -->
+    <!--
+      FORM BACKEND SETUP (choose one):
+      Option A — Netlify Forms (easiest, free):
+        Add  netlify  attribute to the <form> tag below.
+        Netlify will catch all submissions automatically.
+        Change: <form class="form" id="form">
+        To:     <form class="form" id="form" netlify name="booking">
+        You'll see responses in your Netlify dashboard under "Forms".
+
+      Option B — Formspree (free, works anywhere):
+        1. Go to formspree.io and create a free account
+        2. Create a new form, copy your endpoint URL
+        3. Change the action attribute below to your Formspree URL
+        Example: <form ... action="https://formspree.io/f/XXXXXXXX" method="POST">
+    -->
+    <form class="form" id="form" netlify name="booking">
+
+      <div class="field-row">
+        <div class="field">
+          <label for="name">name</label>
+          <input type="text" id="name" name="name" placeholder="your name" required />
+        </div>
+        <div class="field">
+          <label for="email">email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="phone">phone number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 (000) 000-0000" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="session">session type</label>
+          <select id="session" name="session">
+            <option value="">select type</option>
+            <option value="fashion">fashion</option>
+            <option value="portrait">portrait</option>
+            <option value="editorial">editorial</option>
+            <option value="event">event</option>
+            <option value="other">other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="date">preferred date</label>
+          <input type="date" id="date" name="date" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">tell me about your vision</label>
+        <textarea id="message" name="message" placeholder="describe the shoot, mood, location ideas..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">send inquiry</button>
+    </form>
+
+    <p class="success-msg" id="success">
+      inquiry received — i'll be in touch soon.
+    </p>
+
+  </div>
+
+  <nav class="nav-links">
+    <a href="view.html">view</a>
+    <a href="book.html" class="active">book</a>
+    <a href="index.html">shop</a>
+  </nav>
+
+</div>
+
+<script>
+// ── THEME ──────────────────────────────────────────────────────────────────
+function applyTheme() {
+  const h = new Date().getHours();
+  document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
+}
+applyTheme();
+
+// ── FORM SUBMIT (client-side feedback) ────────────────────────────────────
+// Works with both Netlify Forms and Formspree.
+// For Netlify: the form submits to /?form-name=booking by default — Netlify intercepts it.
+// For Formspree: the action URL handles submission and redirects back or returns JSON.
+const form  = document.getElementById('form');
+const success = document.getElementById('success');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('.submit-btn');
+  btn.textContent = 'sending...';
+  btn.style.opacity = '0.6';
+
+  try {
+    const data = new FormData(form);
+    const action = form.getAttribute('action') || '/';
+    await fetch(action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+  } catch (err) { /* allow form to appear submitted even if offline */ }
+
+  form.style.display = 'none';
+  success.classList.add('show');
+});
+</script>
+</body>
+</html>

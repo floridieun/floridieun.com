@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>floridieun. — view</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --text: #111111;
+    --muted: #888888;
+    --accent: #F7931A;
+    --transition: 0.35s ease;
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --text: #f0f0f0;
+    --muted: #666666;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background var(--transition), color var(--transition);
+    overflow: hidden;
+  }
+
+  /* ── FULL-VIEWPORT LAYOUT ── */
+  .page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px 20px;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s, font-weight 0.1s;
+  }
+  .logo:hover { color: var(--accent); font-weight: 700; }
+
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  /* ── MASONRY / UNEVEN GRID ── */
+  /* Uses CSS columns for a true uneven staggered look */
+  .grid-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .grid {
+    height: 100%;
+    columns: 6;
+    column-gap: 5px;
+  }
+
+  .grid-item {
+    break-inside: avoid;
+    margin-bottom: 5px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  /* Uneven heights — different aspect ratios per column position */
+  /* Rows cycle through 5 sizes to create visual rhythm */
+  .grid-item:nth-child(5n+1) { aspect-ratio: 2/3; }
+  .grid-item:nth-child(5n+2) { aspect-ratio: 3/4; }
+  .grid-item:nth-child(5n+3) { aspect-ratio: 1/1; }
+  .grid-item:nth-child(5n+4) { aspect-ratio: 4/5; }
+  .grid-item:nth-child(5n+5) { aspect-ratio: 3/5; }
+
+  .grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.45s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .grid-item img.loaded { opacity: 1; }
+  .grid-item:hover img { transform: scale(1.04); }
+
+  /* hover caption */
+  .grid-item::after {
+    content: attr(data-index);
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.6);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .grid-item:hover::after { opacity: 1; }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 82vh;
+    object-fit: contain;
+    display: block;
+  }
+  .lb-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    cursor: pointer;
+    text-transform: lowercase;
+    background: none;
+    border: none;
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+  .lb-close:hover { color: var(--accent); }
+  .lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    transition: color 0.2s;
+    padding: 12px;
+  }
+  .lb-nav:hover { color: var(--accent); }
+  .lb-prev { left: 20px; }
+  .lb-next { right: 20px; }
+  .lb-counter {
+    position: absolute;
+    bottom: 24px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+
+  /* ── NAV FOOTER ── */
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding-bottom: 2px;
+  }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s ease, font-weight 0.1s ease, transform 0.15s ease;
+    transform-origin: center bottom;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    transform-origin: center;
+  }
+  .nav-links a:hover { color: var(--accent); font-weight: 700; transform: scale(1.5); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--text); font-weight: 700; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .grid { columns: 3; column-gap: 4px; }
+    .grid-item { margin-bottom: 4px; }
+    .page { padding: 20px 14px 16px; gap: 14px; }
+    .nav-links { gap: 28px; }
+    .nav-links a { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="header">
+    <a class="logo" href="index.html">floridieun.</a>
+    <span class="header-label">view</span>
+  </header>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <nav class="nav-links">
+    <a href="view.html" class="active">view</a>
+    <a href="book.html">book</a>
+    <a href="index.html">shop</a>
+  </nav>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">close</button>
+  <button class="lb-nav lb-prev" id="lb-prev">&#8592;</button>
+  <img id="lb-img" alt="floridieun." />
+  <button class="lb-nav lb-next" id="lb-next">&#8594;</button>
+  <span class="lb-counter" id="lb-counter"></span>
+</div>
+
+<script>
+// ── THEME ──────────────────────────────────────────────────────────────────
+function applyTheme() {
+  const h = new Date().getHours();
+  document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
+}
+applyTheme();
+
+// ── ALL 22 PHOTOS ──────────────────────────────────────────────────────────
+const BASE = 'https://images.squarespace-cdn.com/content/v1/6954b2b963a4586305f857b1/';
+const PHOTOS = [
+  '98ab436d-730f-4bc4-a843-4e3eaa1a5de4/DSC04521.jpg',
+  '65da6734-695c-4c51-95f8-ebb75251544c/ORG_DSC01247.jpg',
+  'cbeb4bf8-8eb1-465f-a324-5006d0068b28/LRG_DSC00852.jpg',
+  '858daad1-d444-408f-94e5-a4ed2fab47df/DSC03543.jpg',
+  'be01cda1-ba8d-425c-ac87-31c6dfda853b/ORG_DSC05546.jpg',
+  'b83b14b2-85bd-4709-a6c8-01f8bddd8a81/ORG_DSC09530.jpg',
+  '5b0b247d-2549-4c87-8382-8cfdb9813f2e/ORG_DSC09246.jpg',
+  '9f754692-3584-48fa-9ae6-e0398fefffe1/LRG_DSC09522.jpg',
+  '7e4236d2-075b-41e7-b729-5a9f975f3f25/ORG_DSC05505.jpg',
+  '0087545d-2db1-4d06-9283-02cabc0c23c7/DSC03828.jpg',
+  '50d52b4d-4fd9-4a1d-98d7-e953074d25db/DSC00645.jpg',
+  '48aaef4c-4c8c-4e75-8fc4-f51006882d40/DSC04341.jpg',
+  'fa211583-614f-44cc-b054-aa4380e68c0e/LRG_DSC01272.jpg',
+  '220281eb-3b84-41bd-a086-243a55ceb14f/ORG_DSC00761.jpg',
+  '423668cc-f4f0-4e39-84d2-346159eb4c4d/ORG_DSC00816.jpg',
+  '4bef2993-4e30-423f-ae97-008255b261dc/ORG_DSC01077.jpg',
+  '5dd1d752-3c50-4635-bcbb-99cb1b75b950/DSC03757-2.jpg',
+  '1abe00aa-329c-4de2-ae07-5dbca5fd38d1/ORG_DSC01426.jpg',
+  'b3d5fdf2-3fe7-430e-9cfe-5fb8fbb0c9ea/DSC02000.jpg',
+  'a2e8351c-b9ea-4299-b480-76d3b8c394a1/ORG_DSC01624.jpg',
+  '355537ca-9d53-47fb-a38d-3aa564f14f86/ORG_DSC01159.jpg',
+  '72294a7a-c1c0-4d66-ba55-1ebdd4581157/DSC09080.jpg',
+].map(p => BASE + p + '?format=800w');
+
+const FULL = PHOTOS.map(u => u.replace('format=800w', 'format=1500w'));
+
+// ── BUILD GRID ─────────────────────────────────────────────────────────────
+const grid = document.getElementById('grid');
+PHOTOS.forEach((src, i) => {
+  const item = document.createElement('div');
+  item.className = 'grid-item';
+  item.dataset.index = i;
+  const img = document.createElement('img');
+  img.alt = `floridieun. ${i + 1}`;
+  img.loading = 'lazy';
+  img.onload = () => img.classList.add('loaded');
+  img.onerror = () => item.style.display = 'none';
+  img.src = src;
+  item.appendChild(img);
+  item.addEventListener('click', () => openLightbox(i));
+  grid.appendChild(item);
+});
+
+// ── LIGHTBOX ───────────────────────────────────────────────────────────────
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbCounter = document.getElementById('lb-counter');
+let current = 0;
+
+function openLightbox(i) {
+  current = i;
+  lbImg.src = FULL[i];
+  lbCounter.textContent = `${i + 1} / ${PHOTOS.length}`;
+  lb.classList.add('open');
+}
+function closeLightbox() { lb.classList.remove('open'); }
+function navigate(dir) {
+  current = (current + dir + PHOTOS.length) % PHOTOS.length;
+  lbImg.src = FULL[current];
+  lbCounter.textContent = `${current + 1} / ${PHOTOS.length}`;
+}
+
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lb-prev').addEventListener('click', () => navigate(-1));
+document.getElementById('lb-next').addEventListener('click', () => navigate(1));
+lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navigate(-1);
+  if (e.key === 'ArrowRight') navigate(1);
+});
+</script>
+</body>
+</html>

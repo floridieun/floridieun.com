@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>floridieun.</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --text: #111111;
+    --muted: #888888;
+    --overlay-bg: rgba(255,255,255,0.92);
+    --accent: #F7931A;
+    --transition: 0.35s ease;
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --text: #f0f0f0;
+    --muted: #666666;
+    --overlay-bg: rgba(10,10,10,0.92);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 48px 24px 36px;
+    position: relative;
+  }
+
+  .logo {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s, font-weight 0.1s;
+    user-select: none;
+  }
+  .logo:hover {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .picture-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 32px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .picture-frame {
+    width: min(72vw, 360px);
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .picture-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: opacity 0.5s ease;
+  }
+
+  .picture-frame img.loading { opacity: 0; }
+
+  body.isolating .page > *:not(.picture-wrap) {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .iso-veil {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+  }
+  body.isolating .iso-veil { opacity: 1; }
+  body.isolating .picture-wrap { z-index: 2; }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 4px;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s ease, font-weight 0.1s ease, transform 0.15s ease;
+    transform-origin: center bottom;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    transform-origin: center;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+    font-weight: 700;
+    transform: scale(1.5);
+  }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .skeleton {
+    width: min(72vw, 360px);
+    aspect-ratio: 2/3;
+    background: linear-gradient(90deg,
+      var(--muted) 25%,
+      color-mix(in srgb, var(--muted) 40%, var(--bg)) 50%,
+      var(--muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    opacity: 0.15;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @media (max-width: 420px) {
+    .picture-frame { width: 80vw; }
+    .nav-links { gap: 28px; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.18em; }
+  }
+</style>
+</head>
+<body>
+<div class="iso-veil"></div>
+<div class="page">
+
+  <a class="logo" href="index.html">floridieun.</a>
+
+  <div class="picture-wrap">
+    <div id="skeleton" class="skeleton"></div>
+    <div class="picture-frame" id="frame" style="display:none;">
+      <img id="photo" alt="floridieun. film" />
+    </div>
+  </div>
+
+  <nav class="nav-links">
+    <a href="view.html">view</a>
+    <a href="book.html">book</a>
+    <a href="index.html">shop</a>
+  </nav>
+
+</div>
+
+<script>
+function applyTheme() {
+  const h = new Date().getHours();
+  document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
+}
+applyTheme();
+setInterval(applyTheme, 60000);
+
+const BASE = 'https://images.squarespace-cdn.com/content/v1/6954b2b963a4586305f857b1/';
+const POOL = [
+  '98ab436d-730f-4bc4-a843-4e3eaa1a5de4/DSC04521.jpg',
+  '65da6734-695c-4c51-95f8-ebb75251544c/ORG_DSC01247.jpg',
+  'cbeb4bf8-8eb1-465f-a324-5006d0068b28/LRG_DSC00852.jpg',
+  '858daad1-d444-408f-94e5-a4ed2fab47df/DSC03543.jpg',
+  'be01cda1-ba8d-425c-ac87-31c6dfda853b/ORG_DSC05546.jpg',
+  'b83b14b2-85bd-4709-a6c8-01f8bddd8a81/ORG_DSC09530.jpg',
+  '5b0b247d-2549-4c87-8382-8cfdb9813f2e/ORG_DSC09246.jpg',
+  '9f754692-3584-48fa-9ae6-e0398fefffe1/LRG_DSC09522.jpg',
+  '7e4236d2-075b-41e7-b729-5a9f975f3f25/ORG_DSC05505.jpg',
+  '0087545d-2db1-4d06-9283-02cabc0c23c7/DSC03828.jpg',
+  '50d52b4d-4fd9-4a1d-98d7-e953074d25db/DSC00645.jpg',
+  '48aaef4c-4c8c-4e75-8fc4-f51006882d40/DSC04341.jpg',
+  'fa211583-614f-44cc-b054-aa4380e68c0e/LRG_DSC01272.jpg',
+  '220281eb-3b84-41bd-a086-243a55ceb14f/ORG_DSC00761.jpg',
+  '423668cc-f4f0-4e39-84d2-346159eb4c4d/ORG_DSC00816.jpg',
+  '4bef2993-4e30-423f-ae97-008255b261dc/ORG_DSC01077.jpg',
+  '5dd1d752-3c50-4635-bcbb-99cb1b75b950/DSC03757-2.jpg',
+  '1abe00aa-329c-4de2-ae07-5dbca5fd38d1/ORG_DSC01426.jpg',
+  'b3d5fdf2-3fe7-430e-9cfe-5fb8fbb0c9ea/DSC02000.jpg',
+  'a2e8351c-b9ea-4299-b480-76d3b8c394a1/ORG_DSC01624.jpg',
+  '355537ca-9d53-47fb-a38d-3aa564f14f86/ORG_DSC01159.jpg',
+  '72294a7a-c1c0-4d66-ba55-1ebdd4581157/DSC09080.jpg',
+].map(p => BASE + p + '?format=1200w');
+
+const LAST_KEY = 'fdl_last_img';
+const last = sessionStorage.getItem(LAST_KEY) || '';
+let filtered = POOL.filter(u => u !== last);
+if (!filtered.length) filtered = POOL;
+const chosen = filtered[Math.floor(Math.random() * filtered.length)];
+sessionStorage.setItem(LAST_KEY, chosen);
+
+const img = document.getElementById('photo');
+const frame = document.getElementById('frame');
+const skeleton = document.getElementById('skeleton');
+
+img.onload = () => {
+  skeleton.style.display = 'none';
+  frame.style.display = 'block';
+  img.classList.remove('loading');
+};
+img.onerror = () => { img.src = POOL[0]; };
+img.classList.add('loading');
+img.src = chosen;
+
+frame.addEventListener('mouseenter', () => document.body.classList.add('isolating'));
+frame.addEventListener('mouseleave', () => document.body.classList.remove('isolating'));
+
+let isolated = false;
+frame.addEventListener('click', (e) => {
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    e.preventDefault();
+    isolated = !isolated;
+    document.body.classList.toggle('isolating', isolated);
+  }
+});
+</script>
+</body>
+</html>
