@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>floridieun. — book</title>
 <style>
@@ -13,15 +14,14 @@
     --muted: #888888;
     --border: #e0e0e0;
     --accent: #F7931A;
-    --accent-hover: #e07f10;
     --input-bg: #fafafa;
     --transition: 0.35s ease;
   }
   [data-theme="dark"] {
     --bg: #0a0a0a;
     --text: #f0f0f0;
-    --muted: #666666;
-    --border: #222222;
+    --muted: #555555;
+    --border: #1e1e1e;
     --input-bg: #111111;
   }
 
@@ -36,6 +36,7 @@
     overflow-x: hidden;
   }
 
+  /* ── PAGE SHELL ── */
   .page {
     min-height: 100vh;
     display: flex;
@@ -43,7 +44,6 @@
     padding: 36px 24px 32px;
     max-width: 520px;
     margin: 0 auto;
-    gap: 0;
   }
 
   /* ── HEADER ── */
@@ -51,7 +51,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
     flex-shrink: 0;
   }
   .logo {
@@ -60,6 +59,7 @@
     text-transform: lowercase;
     color: var(--text);
     text-decoration: none;
+    font-weight: 400;
     transition: color 0.2s, font-weight 0.1s;
   }
   .logo:hover { color: var(--accent); font-weight: 700; }
@@ -70,40 +70,46 @@
     color: var(--muted);
   }
 
-  /* ── MAIN CONTENT AREA ── */
-  .content { flex: 1; }
-
-  /* ── SECTION TITLE ── */
-  .section-title {
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    text-transform: lowercase;
-    color: var(--muted);
-    margin-bottom: 20px;
+  /* ── CENTERED CONTENT ── */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
   }
 
-  /* ── QUICK BOOK BUTTON ── */
+  /* ── SECTION LABEL ── */
+  .section-title {
+    font-size: 9px;
+    letter-spacing: 0.36em;
+    text-transform: lowercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  /* ── SCHEDULE BUTTON ── */
   .quick-book {
     display: block;
     width: 100%;
-    padding: 16px 24px;
+    padding: 17px 24px;
     background: var(--text);
     color: var(--bg);
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.3em;
     text-transform: lowercase;
     text-align: center;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
-    margin-bottom: 8px;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
   }
   .quick-book:hover {
     background: var(--accent);
-    color: #ffffff;
+    color: #fff;
     transform: translateY(-1px);
   }
   .quick-book-sub {
@@ -112,6 +118,7 @@
     text-transform: lowercase;
     color: var(--muted);
     text-align: center;
+    margin-top: 8px;
     margin-bottom: 36px;
   }
 
@@ -122,16 +129,13 @@
     gap: 16px;
     margin-bottom: 32px;
   }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
   .divider-text {
     font-size: 9px;
     letter-spacing: 0.24em;
     text-transform: lowercase;
     color: var(--muted);
+    white-space: nowrap;
   }
 
   /* ── FORM ── */
@@ -141,11 +145,7 @@
     gap: 14px;
   }
 
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
 
   .field label {
     font-size: 9px;
@@ -166,19 +166,18 @@
     letter-spacing: 0.04em;
     padding: 11px 13px;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s;
     appearance: none;
     border-radius: 0;
     width: 100%;
   }
   .field input:focus,
   .field select:focus,
-  .field textarea:focus {
-    border-color: var(--accent);
-  }
+  .field textarea:focus { border-color: var(--accent); }
+
   .field textarea {
     resize: none;
-    height: 84px;
+    height: 80px;
     line-height: 1.6;
   }
   .field select {
@@ -189,7 +188,6 @@
     cursor: pointer;
   }
 
-  /* two-col row */
   .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -204,7 +202,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.3em;
     text-transform: lowercase;
     padding: 14px 24px;
     cursor: pointer;
@@ -215,12 +213,12 @@
   .submit-btn:hover {
     background: var(--accent);
     border-color: var(--accent);
-    color: #ffffff;
+    color: #fff;
     transform: translateY(-1px);
   }
   .submit-btn:active { transform: translateY(0); }
 
-  /* ── SUCCESS MESSAGE ── */
+  /* ── SUCCESS ── */
   .success-msg {
     display: none;
     font-size: 10px;
@@ -228,7 +226,7 @@
     text-transform: lowercase;
     color: var(--muted);
     text-align: center;
-    padding: 18px 0 4px;
+    padding: 20px 0 4px;
   }
   .success-msg.show { display: block; }
 
@@ -248,9 +246,9 @@
     color: var(--muted);
     text-decoration: none;
     font-weight: 400;
-    transition: color 0.2s ease, font-weight 0.1s ease, transform 0.15s ease;
-    transform-origin: center bottom;
     position: relative;
+    transition: color 0.2s, font-weight 0.1s, transform 0.15s;
+    transform-origin: center bottom;
   }
   .nav-links a::after {
     content: '';
@@ -259,16 +257,28 @@
     height: 1px;
     background: var(--accent);
     transform: scaleX(0);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s;
     transform-origin: center;
   }
-  .nav-links a:hover { color: var(--accent); font-weight: 700; transform: scale(1.5); }
+  .nav-links a:hover {
+    color: var(--accent);
+    font-weight: 700;
+    transform: scale(1.5);
+  }
   .nav-links a:hover::after { transform: scaleX(1); }
   .nav-links a.active { color: var(--text); font-weight: 700; }
 
+  [data-theme="dark"] input::placeholder,
+  [data-theme="dark"] textarea::placeholder { color: #444; }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: opacity(0.4);
+    cursor: pointer;
+  }
+
   @media (max-width: 420px) {
     .field-row { grid-template-columns: 1fr; }
-    .nav-links { gap: 28px; }
+    .nav-links { gap: 24px; }
     .nav-links a { font-size: 10px; }
   }
 </style>
@@ -284,21 +294,10 @@
 
   <div class="content">
 
-    <!-- QUICK SCHEDULE OPTION -->
     <p class="section-title">schedule instantly</p>
 
-    <!--
-      ACUITY SETUP:
-      1. Go to acuityscheduling.com and create a free account (or log in)
-      2. Set up your appointment types (e.g. "Photography Session — 1 hr")
-      3. In Acuity go to: Business Settings → Scheduling Page Link
-      4. Copy your unique link — it looks like:
-         https://app.acuityscheduling.com/schedule.php?owner=XXXXXXX
-         or a custom subdomain: https://floridieunfilm.as.me/
-      5. Replace YOUR_ACUITY_LINK below with your actual link
-    -->
     <a class="quick-book"
-       href="https://YOUR_ACUITY_LINK.as.me/"
+       href="https://dieun.as.me/schedule/a161880f/appointment/60107488/calendar/9833933"
        target="_blank"
        rel="noopener">
       schedule a session
@@ -311,22 +310,6 @@
       <div class="divider-line"></div>
     </div>
 
-    <!-- INQUIRY FORM -->
-    <!--
-      FORM BACKEND SETUP (choose one):
-      Option A — Netlify Forms (easiest, free):
-        Add  netlify  attribute to the <form> tag below.
-        Netlify will catch all submissions automatically.
-        Change: <form class="form" id="form">
-        To:     <form class="form" id="form" netlify name="booking">
-        You'll see responses in your Netlify dashboard under "Forms".
-
-      Option B — Formspree (free, works anywhere):
-        1. Go to formspree.io and create a free account
-        2. Create a new form, copy your endpoint URL
-        3. Change the action attribute below to your Formspree URL
-        Example: <form ... action="https://formspree.io/f/XXXXXXXX" method="POST">
-    -->
     <form class="form" id="form" netlify name="booking">
 
       <div class="field-row">
@@ -386,39 +369,35 @@
 </div>
 
 <script>
-// ── THEME ──────────────────────────────────────────────────────────────────
-function applyTheme() {
-  const h = new Date().getHours();
-  document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
-}
-applyTheme();
+  function applyTheme() {
+    const h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', (h >= 18 || h < 6) ? 'dark' : 'light');
+  }
+  applyTheme();
+  setInterval(applyTheme, 60000);
 
-// ── FORM SUBMIT (client-side feedback) ────────────────────────────────────
-// Works with both Netlify Forms and Formspree.
-// For Netlify: the form submits to /?form-name=booking by default — Netlify intercepts it.
-// For Formspree: the action URL handles submission and redirects back or returns JSON.
-const form  = document.getElementById('form');
-const success = document.getElementById('success');
+  const form    = document.getElementById('form');
+  const success = document.getElementById('success');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = form.querySelector('.submit-btn');
-  btn.textContent = 'sending...';
-  btn.style.opacity = '0.6';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'sending...';
+    btn.style.opacity = '0.5';
 
-  try {
-    const data = new FormData(form);
-    const action = form.getAttribute('action') || '/';
-    await fetch(action, {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-  } catch (err) { /* allow form to appear submitted even if offline */ }
+    try {
+      const data   = new FormData(form);
+      const action = form.getAttribute('action') || '/';
+      await fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+    } catch (err) {}
 
-  form.style.display = 'none';
-  success.classList.add('show');
-});
+    form.style.display = 'none';
+    success.classList.add('show');
+  });
 </script>
 </body>
 </html>
